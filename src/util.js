@@ -74,6 +74,9 @@ async function actionWith(descriptor, args) {
       descriptor.payload
     );
   } catch (e) {
+    if (window.Raven) {
+      window.Raven.captureException(e);
+    }
     descriptor.payload = new InternalError(e.message);
     descriptor.error = true;
   }
@@ -85,6 +88,9 @@ async function actionWith(descriptor, args) {
       descriptor.meta
     );
   } catch (e) {
+    if (window.Raven) {
+      window.Raven.captureException(e);
+    }
     delete descriptor.meta;
     descriptor.payload = new InternalError(e.message);
     descriptor.error = true;
